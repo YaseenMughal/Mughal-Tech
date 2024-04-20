@@ -8,16 +8,17 @@ import 'package:practice_project/components/widget_component/text_widget.dart';
 import 'package:practice_project/components/widget_component/utils_widget.dart';
 import 'package:practice_project/screens/forget_screen.dart';
 import 'package:practice_project/screens/home_screen.dart';
-import 'package:practice_project/screens/signup_screen.dart';
+import 'package:practice_project/screens/login_screen.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignupScreen extends StatefulWidget {
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
+  TextEditingController tfcname = TextEditingController();
   TextEditingController tfcemail = TextEditingController();
   TextEditingController tfcpassword = TextEditingController();
 
@@ -32,6 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void dispose() {
     super.dispose();
+    tfcname.dispose();
     tfcemail.dispose();
     tfcpassword.dispose();
   }
@@ -53,8 +55,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: AppButton.arrowButtom(context: context),
                 ),
                 const SizedBox(height: 20.0),
-                authenticationText(title: "Hello Again!", subtitle: "Welcome Back You’ve Been Missed!"),
+                authenticationText(title: "Create Account", subtitle: "Let's Create Account Together!"),
                 const SizedBox(height: 30.0),
+                appTextField(
+                  keyboardType: TextInputType.name,
+                  controller: tfcname,
+                  labeltxt: "Your Name",
+                  prefixIcon: const Icon(Icons.person),
+                ),
                 appTextField(
                   keyboardType: TextInputType.emailAddress,
                   controller: tfcemail,
@@ -73,33 +81,19 @@ class _LoginScreenState extends State<LoginScreen> {
                     color: toggle ? AppColor.titleColor : AppColor.subtitleColor,
                   ),
                 ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const ForgetScreen(),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      "Recovery Password",
-                      style: TextStyle(fontSize: 13, color: AppColor.subtitleColor, fontFamily: "Poppin"),
-                    ),
-                  ),
-                ),
                 AppButton.mainButton(
-                    text: "Sign In",
+                    text: "Sign Up",
                     onTap: () {
-                      if (tfcemail.text.isEmpty) {
-                        Utils.appSnackBar(context, "Please enter a valid email!");
+                      if (tfcname.text.isEmpty) {
+                        Utils.appSnackBar(context, "Please enter full name!");
+                      } else if (tfcemail.text.isEmpty) {
+                        Utils.appSnackBar(context, "Please enter valid email!");
                       } else if (tfcpassword.text.isEmpty) {
-                        Utils.appSnackBar(context, "Please enter a correct password!");
+                        Utils.appSnackBar(context, "Please enter valid password!");
                       } else if (tfcpassword.text.length < 6) {
                         Utils.appSnackBar(context, "Password must be greater than 6 characters!");
                       } else {
-                        Utils.appSnackBar(context, "Login SuccessFully!");
+                        Utils.appSnackBar(context, "SignUp SuccessFully!");
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => const HomeScreen(),
@@ -129,12 +123,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 richedText(
-                  text01: "Don't have an account?",
-                  text02: " Sign Up For Free",
+                  text01: "Already have an account?",
+                  text02: " Sign In",
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => const SignupScreen(),
+                        builder: (context) => const LoginScreen(),
                       ),
                     );
                   },

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:practice_project/components/constant/color_constant.dart';
+import 'package:practice_project/components/constant_component/color_constant.dart';
 
 Widget authenticationText({title, subtitle}) {
   return Column(
@@ -14,5 +14,35 @@ Widget authenticationText({title, subtitle}) {
         style: TextStyle(fontSize: 16, color: AppColor.subtitleColor, fontFamily: "Poppin", fontWeight: FontWeight.w400),
       )
     ],
+  );
+}
+
+Widget richedText({text01, text02, void Function()? onTap}) {
+  return InkWell(
+    onTap: onTap,
+    child: Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15.0),
+      child: RichText(
+        text: TextSpan(
+            text: text01,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
+              fontFamily: "Poppin",
+              color: AppColor.subtitleColor,
+            ),
+            children: [
+              TextSpan(
+                text: text02,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  fontFamily: "Poppin",
+                  color: AppColor.titleColor,
+                ),
+              )
+            ]),
+      ),
+    ),
   );
 }

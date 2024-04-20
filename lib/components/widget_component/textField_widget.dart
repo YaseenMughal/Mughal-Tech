@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:practice_project/component/constant/color_constant.dart';
+import 'package:practice_project/components/constant_component/color_constant.dart';
 
 Widget appTextField({
   TextEditingController? controller,
