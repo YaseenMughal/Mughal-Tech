@@ -107,6 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         );
                       }
                     }),
+                const SizedBox(height: 10.0),
                 AppButton.mainButton(
                   gradient: const LinearGradient(
                     colors: [Colors.white, Colors.white],

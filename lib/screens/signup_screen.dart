@@ -22,6 +22,10 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController tfcemail = TextEditingController();
   TextEditingController tfcpassword = TextEditingController();
 
+  final nameFocusNode = FocusNode();
+  final emailFocusNode = FocusNode();
+  final passwordFocusNode = FocusNode();
+
   bool toggle = false;
 
   void _togglePasswordVisibility() {
@@ -36,6 +40,9 @@ class _SignupScreenState extends State<SignupScreen> {
     tfcname.dispose();
     tfcemail.dispose();
     tfcpassword.dispose();
+    nameFocusNode.dispose();
+    emailFocusNode.dispose();
+    passwordFocusNode.dispose();
   }
 
   @override
@@ -62,12 +69,20 @@ class _SignupScreenState extends State<SignupScreen> {
                   controller: tfcname,
                   labeltxt: "Your Name",
                   prefixIcon: const Icon(Icons.person),
+                  focusNode: nameFocusNode,
+                  onSubmitted: (p0) {
+                    Utils.fieldFocus(context, nameFocusNode, emailFocusNode);
+                  },
                 ),
                 appTextField(
                   keyboardType: TextInputType.emailAddress,
                   controller: tfcemail,
                   labeltxt: "Email Address",
                   prefixIcon: const Icon(Icons.mail_outline),
+                  focusNode: emailFocusNode,
+                  onSubmitted: (p0) {
+                    Utils.fieldFocus(context, emailFocusNode, passwordFocusNode);
+                  },
                 ),
                 appTextField(
                   keyboardType: TextInputType.visiblePassword,
@@ -75,12 +90,14 @@ class _SignupScreenState extends State<SignupScreen> {
                   controller: tfcpassword,
                   labeltxt: "Password",
                   prefixIcon: const Icon(Icons.lock_outline),
+                  focusNode: passwordFocusNode,
                   suffixIcon: IconButton(
                     onPressed: _togglePasswordVisibility,
                     icon: toggle ? const Icon(Icons.visibility_outlined) : const Icon(Icons.visibility_off_outlined),
                     color: toggle ? AppColor.titleColor : AppColor.subtitleColor,
                   ),
                 ),
+                const SizedBox(height: 20),
                 AppButton.mainButton(
                     text: "Sign Up",
                     onTap: () {
@@ -101,6 +118,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         );
                       }
                     }),
+                const SizedBox(height: 10),
                 AppButton.mainButton(
                   gradient: const LinearGradient(
                     colors: [Colors.white, Colors.white],

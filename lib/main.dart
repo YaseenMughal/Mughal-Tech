@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:practice_project/screens/home_screen.dart';
 import 'package:practice_project/screens/login_screen.dart';
 import 'package:practice_project/screens/splash_screen.dart';
 
@@ -17,13 +16,12 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        textTheme: TextTheme(),
         iconTheme: const IconThemeData(color: Colors.black),
         appBarTheme: const AppBarTheme(backgroundColor: Colors.amber, centerTitle: true, titleTextStyle: TextStyle(color: Colors.white)),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const LoginScreen(),
+      home: const SplashScreen(),
     );
   }
 }
