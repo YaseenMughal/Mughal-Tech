@@ -46,3 +46,21 @@ Widget richedText({text01, text02, void Function()? onTap}) {
     ),
   );
 }
+
+Widget doubleText({required String text, required void Function()? onTap}) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(
+        text,
+        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: AppColor.blackColor, fontFamily: "Poppin"),
+      ),
+      TextButton(
+          onPressed: onTap,
+          child: Text(
+            "See all",
+            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: AppColor.mainColor, fontFamily: "Poppin"),
+          ))
+    ],
+  );
+}

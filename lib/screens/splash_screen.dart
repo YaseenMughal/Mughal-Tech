@@ -28,7 +28,10 @@ class _SplashScreenState extends State<SplashScreen> {
       body: SizedBox(
         height: double.infinity,
         width: double.infinity,
-        child: Image.asset("assets/images/splash.jpg"),
+        child: Image.asset(
+          "assets/images/splash.jpg",
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
