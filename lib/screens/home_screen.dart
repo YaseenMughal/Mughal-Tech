@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:practice_project/components/constant_component/color_constant.dart';
@@ -28,9 +29,9 @@ class _HomeScreenState extends State<HomeScreen> {
       backgroundColor: Colors.grey[300],
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        title: const Text(
+        title: Text(
           "Home Screen",
-          style: TextStyle(color: Colors.white),
+          style: TextStyle(color: AppColor.whiteColor),
         ),
         leading: IconButton(onPressed: () => Scaffold.of(context).openDrawer(), icon: Image.asset(AppImage.leadIcon)),
         centerTitle: true,
@@ -50,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       drawer: Drawer(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColor.whiteColor,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
           child: Column(
@@ -73,24 +74,24 @@ class _HomeScreenState extends State<HomeScreen> {
               const SizedBox(
                 height: 20,
               ),
-              const ListTile(
+              ListTile(
                 tileColor: Colors.black,
                 title: Text(
                   "Setting",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: AppColor.whiteColor),
                 ),
-                trailing: Icon(Icons.settings, color: Colors.white),
+                trailing: Icon(Icons.settings, color: AppColor.whiteColor),
               ),
               const SizedBox(
                 height: 20,
               ),
-              const ListTile(
+              ListTile(
                 tileColor: Colors.black,
                 title: Text(
                   "Privacy & policy",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: AppColor.whiteColor),
                 ),
-                trailing: Icon(Icons.privacy_tip_outlined, color: Colors.white),
+                trailing: Icon(Icons.privacy_tip_outlined, color: AppColor.whiteColor),
               ),
               const SizedBox(
                 height: 20,
@@ -100,11 +101,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const SplashScreen()), (route) => false);
                 },
                 tileColor: Colors.black,
-                title: const Text(
+                title: Text(
                   "LogOut",
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: AppColor.whiteColor),
                 ),
-                trailing: const Icon(Icons.logout_outlined, color: Colors.white),
+                trailing: Icon(Icons.logout_outlined, color: AppColor.whiteColor),
               )
             ],
           ),
@@ -125,7 +126,7 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, fontFamily: "Poppin", color: AppColor.blackColor),
             ),
             const SizedBox(height: 20),
-            Container(
+            SizedBox(
               height: 60,
               width: double.infinity,
               child: ListView.builder(
