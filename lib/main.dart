@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         iconTheme: const IconThemeData(color: Colors.black),
-        appBarTheme: const AppBarTheme(backgroundColor: Colors.amber, centerTitle: true, titleTextStyle: TextStyle(color: Colors.white)),
+        appBarTheme: const AppBarTheme(backgroundColor: Color.fromRGBO(238, 238, 238, 1), centerTitle: true, titleTextStyle: TextStyle(color: Colors.white)),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),

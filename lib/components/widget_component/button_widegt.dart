@@ -4,8 +4,8 @@ import 'package:practice_project/components/constant_component/color_constant.da
 class AppButton {
   static Widget arrowButtom({required BuildContext context}) {
     return Container(
-      height: 45,
-      width: 45,
+      height: 35,
+      width: 35,
       decoration: const BoxDecoration(
         color: Colors.white,
         shape: BoxShape.circle,

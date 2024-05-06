@@ -6,6 +6,8 @@ import 'package:practice_project/components/constant_component/color_constant.da
 import 'package:practice_project/components/constant_component/image_constant.dart';
 import 'package:practice_project/components/widget_component/textField_widget.dart';
 import 'package:practice_project/components/widget_component/text_widget.dart';
+import 'package:practice_project/screens/login_screen.dart';
+import 'package:practice_project/screens/shoe_detail_screen.dart';
 import 'package:practice_project/screens/splash_screen.dart';
 import 'package:practice_project/drawer_screen/profile_drawer.dart';
 
@@ -63,36 +65,6 @@ class _HomeScreenState extends State<HomeScreen> {
     AppImage.underArmourLogo,
   ];
 
-  // List<String> shoeImg = [
-  //   AppImage.shoe01Img,
-  //   AppImage.shoe02Img,
-  //   AppImage.shoe03Img,
-  //   AppImage.shoe04Img,
-  //   AppImage.shoe05Img,
-  //   AppImage.shoe06Img,
-  //   AppImage.shoe07Img,
-  // ];
-
-  // List<String> shoeName = [
-  //   "Nike Club Max",
-  //   "Nike Air Force",
-  //   "Nike Jordan",
-  //   "Nike Air Max",
-  //   "Nike Air Max",
-  //   "Nike Air Max",
-  //   "Nike Air Jordan",
-  // ];
-
-  // List<double> shoePrice = [
-  //   478.7,
-  //   367.76,
-  //   367.76,
-  //   254.89,
-  //   571.6,
-  //   897.99,
-  //   659.45,
-  // ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,7 +75,12 @@ class _HomeScreenState extends State<HomeScreen> {
           "Home Screen",
           style: TextStyle(color: AppColor.whiteColor),
         ),
-        leading: IconButton(onPressed: () => Scaffold.of(context).openDrawer(), icon: Image.asset(AppImage.leadIcon)),
+        leading: Builder(
+          builder: (context) => IconButton(
+            onPressed: () => Scaffold.of(context).openDrawer(),
+            icon: Image.asset(AppImage.leadIcon),
+          ),
+        ),
         centerTitle: true,
         actions: <Widget>[
           const SizedBox(width: 20),
@@ -123,60 +100,27 @@ class _HomeScreenState extends State<HomeScreen> {
       drawer: Drawer(
         backgroundColor: AppColor.whiteColor,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 30.0),
           child: Column(
             children: [
               CircleAvatar(radius: 55, child: Image.asset("assets/images/PngItem_526033.png")),
               const SizedBox(
-                height: 20,
+                height: 40,
               ),
-              ListTile(
-                onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfileDrawerScreen()));
-                },
-                tileColor: Colors.black,
-                title: const Text(
-                  "Profile",
-                  style: TextStyle(color: Colors.white),
-                ),
-                trailing: const Icon(Icons.person, color: Colors.white),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ListTile(
-                tileColor: Colors.black,
-                title: Text(
-                  "Setting",
-                  style: TextStyle(color: AppColor.whiteColor),
-                ),
-                trailing: Icon(Icons.settings, color: AppColor.whiteColor),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ListTile(
-                tileColor: Colors.black,
-                title: Text(
-                  "Privacy & policy",
-                  style: TextStyle(color: AppColor.whiteColor),
-                ),
-                trailing: Icon(Icons.privacy_tip_outlined, color: AppColor.whiteColor),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ListTile(
-                onTap: () {
-                  Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const SplashScreen()), (route) => false);
-                },
-                tileColor: Colors.black,
-                title: Text(
-                  "LogOut",
-                  style: TextStyle(color: AppColor.whiteColor),
-                ),
-                trailing: Icon(Icons.logout_outlined, color: AppColor.whiteColor),
-              )
+              drawerTile(
+                  title: "Profile",
+                  icon: Icons.person_outline,
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfileDrawerScreen()));
+                  }),
+              drawerTile(title: "Setting", icon: Icons.settings_outlined, onTap: () {}),
+              drawerTile(title: "Privacy & Policy", icon: Icons.privacy_tip_outlined, onTap: () {}),
+              drawerTile(
+                  title: "LogOut",
+                  icon: Icons.logout_outlined,
+                  onTap: () {
+                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (route) => false);
+                  }),
             ],
           ),
         ),
@@ -225,40 +169,50 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: const EdgeInsets.only(right: 10.0),
-                    child: Container(
-                      width: 150,
-                      decoration: BoxDecoration(color: AppColor.whiteColor, borderRadius: BorderRadius.circular(15.0)),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Image.asset(
-                              shoeDetails[index]["shoeImg"],
-                            ),
-                            const SizedBox(height: 8.0),
-                            Text(
-                              "BEST SELLER",
-                              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.mainColor),
-                            ),
-                            Text(
-                              shoeDetails[index]["shoeName"],
-                              style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, fontFamily: "Poppin", color: AppColor.blackColor),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  shoeDetails[index]["shoePrice"],
-                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.blackColor),
-                                ),
-                                Icon(
-                                  Icons.add,
-                                  color: AppColor.mainColor,
-                                )
-                              ],
-                            )
-                          ],
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ShoeDetail(
+                                  image: shoeDetails[index]["shoeImg"],
+                                  name: shoeDetails[index]["shoeName"],
+                                  price: shoeDetails[index]["shoePrice"],
+                                )));
+                      },
+                      child: Container(
+                        width: 150,
+                        decoration: BoxDecoration(color: AppColor.whiteColor, borderRadius: BorderRadius.circular(15.0)),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                shoeDetails[index]["shoeImg"],
+                              ),
+                              const SizedBox(height: 8.0),
+                              Text(
+                                "BEST SELLER",
+                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.mainColor),
+                              ),
+                              Text(
+                                shoeDetails[index]["shoeName"],
+                                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, fontFamily: "Poppin", color: AppColor.blackColor),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    shoeDetails[index]["shoePrice"],
+                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.blackColor),
+                                  ),
+                                  Icon(
+                                    Icons.add,
+                                    color: AppColor.mainColor,
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -267,6 +221,35 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget drawerTile({required String title, required IconData icon, void Function()? onTap}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Container(
+        width: double.infinity,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15.0),
+          color: AppColor.whiteColor,
+          boxShadow: const [
+            BoxShadow(
+              blurRadius: 6,
+              spreadRadius: 1,
+              offset: Offset(0, 5),
+              color: Color.fromRGBO(223, 222, 222, 1),
+            ),
+          ],
+        ),
+        child: ListTile(
+          onTap: onTap,
+          title: Text(
+            title,
+            style: const TextStyle(color: Colors.black),
+          ),
+          trailing: Icon(icon, color: Colors.black),
         ),
       ),
     );
