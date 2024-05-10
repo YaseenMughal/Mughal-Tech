@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:practice_project/components/constant_component/color_constant.dart';
 import 'package:practice_project/components/constant_component/image_constant.dart';
 import 'package:practice_project/components/widget_component/button_widegt.dart';
+import 'package:practice_project/screens/favourite_screen.dart';
 
 class ShoeDetail extends StatefulWidget {
   final String image;
@@ -164,7 +165,19 @@ class _ShoeDetailState extends State<ShoeDetail> {
                           },
                         ),
                       ),
-                      // const SizedBox(height: 10.0),
+                      const SizedBox(height: 10.0),
+                      AppButton.mainButton(
+                          text: "Add to Cart",
+                          btnTextColor: Colors.blue,
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => FavouriteScreen(
+                                image: widget.image,
+                                name: widget.name,
+                                price: widget.price,
+                              ),
+                            ));
+                          })
                       // Row(
                       //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       //   children: [
