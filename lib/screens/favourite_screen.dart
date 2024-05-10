@@ -31,7 +31,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   }
 
   void addUserDataToList() {
-    // Add shoe data to the list
     shoeDataList.add({
       'shoeImage': widget.image,
       'shoeName': widget.name,
@@ -110,7 +109,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                                 Text(
                                   shoeData['shoePrice'] ?? '',
                                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.blackColor),
-                                )
+                                ),
                               ],
                             )
                           ],
@@ -124,59 +123,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           ],
         ),
       ),
-
-      // body: SafeArea(
-      //   child: Expanded(
-      //     child: Padding(
-      //         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-      //         child: GridView.builder(
-      //           itemCount: shoeDataList.length,
-      //           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, mainAxisSpacing: 10.0),
-      //           itemBuilder: (context, index) {
-      //             final shoeData = shoeDataList[index];
-      //             return Padding(
-      //                 padding: const EdgeInsets.only(right: 5, left: 5),
-      //                 child: Container(
-      //                   height: 55,
-      //                   width: 55,
-      //                   decoration: BoxDecoration(
-      //                       color: Colors.white,
-      //                       boxShadow: const [BoxShadow(blurRadius: 4, spreadRadius: 2, offset: Offset(5, 5), color: Color.fromRGBO(238, 238, 238, 1))],
-      //                       borderRadius: BorderRadius.circular(13.0)),
-      //                   child: Column(
-      //                     children: [
-      //                       SizedBox(
-      //                         height: 70,
-      //                         width: double.infinity,
-      //                         child: Image.asset(
-      //                           shoeData['shoeImage'] ?? '',
-      //                           fit: BoxFit.contain,
-      //                         ),
-      //                       ),
-      //                       Column(
-      //                         crossAxisAlignment: CrossAxisAlignment.start,
-      //                         children: [
-      //                           Text(
-      //                             "BEST SELLER",
-      //                             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.mainColor),
-      //                           ),
-      //                           Text(
-      //                             shoeData['shoeName'] ?? '',
-      //                             style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, fontFamily: "Poppin", color: AppColor.blackColor),
-      //                           ),
-      //                           Text(
-      //                             shoeData['shoePrice'] ?? '',
-      //                             style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.blackColor),
-      //                           )
-      //                         ],
-      //                       )
-      //                     ],
-      //                   ),
-      //                 ));
-      //           },
-      //         )),
-      //   ),
-      // ),
     );
   }
 }
