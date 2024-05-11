@@ -6,15 +6,17 @@ import 'package:practice_project/components/constant_component/image_constant.da
 import 'package:practice_project/components/widget_component/button_widegt.dart';
 
 class FavouriteScreen extends StatefulWidget {
-  final String image;
-  final String name;
-  final String price;
-
+  final String? image;
+  final String? name;
+  final String? price;
+  final Map<String, String>? shoeData;
   const FavouriteScreen({
     super.key,
-    required this.image,
-    required this.name,
-    required this.price,
+    this.image,
+    this.name,
+    this.price,
+    this.shoeData,
+    // required Map<String, String> shoeData,
   });
 
   @override
@@ -22,19 +24,41 @@ class FavouriteScreen extends StatefulWidget {
 }
 
 class _FavouriteScreenState extends State<FavouriteScreen> {
+  // List<Map<String, String>> shoeDataList = [];
+
+  // @override
+  // void initState() {
+  //   addUserDataToList();
+  //   super.initState();
+  // }
+
+  // void addUserDataToList() {
+  //   shoeDataList.add({
+  //     'shoeImage': widget.image,
+  //     'shoeName': widget.name,
+  //     'shoePrice': widget.price,
+  //   });
+  // }
+
   List<Map<String, String>> shoeDataList = [];
 
   @override
   void initState() {
-    addUserDataToList();
     super.initState();
+    // Initialize the shoeDataList if it's empty
+    if (shoeDataList.isEmpty) {
+      addUserDataToList();
+    }
   }
 
   void addUserDataToList() {
-    shoeDataList.add({
-      'shoeImage': widget.image,
-      'shoeName': widget.name,
-      'shoePrice': widget.price,
+    setState(() {
+      // Add new data to the list instead of replacing it
+      shoeDataList.add({
+        'shoeImage': widget.image.toString(),
+        'shoeName': widget.name.toString(),
+        'shoePrice': widget.price.toString(),
+      });
     });
   }
 

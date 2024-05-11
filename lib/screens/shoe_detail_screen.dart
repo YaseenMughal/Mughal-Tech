@@ -166,36 +166,7 @@ class _ShoeDetailState extends State<ShoeDetail> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      AppButton.mainButton(
-                          text: "Add to Cart",
-                          btnTextColor: Colors.blue,
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => FavouriteScreen(
-                                image: widget.image,
-                                name: widget.name,
-                                price: widget.price,
-                              ),
-                            ));
-                          })
-                      // Row(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Column(
-                      //       children: [
-                      //         Text(
-                      //           "Price",
-                      //           style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.subtitleColor),
-                      //         ),
-                      //         Text(
-                      //           "Pkr: 967.800",
-                      //           style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: "Poppin", color: AppColor.titleColor),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //     AppButton.mainButton(text: "Add to Cart", onTap: () {})
-                      //   ],
-                      // )
+                      AppButton.mainButton(text: "Add to Cart", btnTextColor: Colors.blue, onTap: () {})
                     ],
                   ),
                 ),

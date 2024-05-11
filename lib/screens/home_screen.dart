@@ -7,6 +7,7 @@ import 'package:practice_project/components/constant_component/image_constant.da
 import 'package:practice_project/components/widget_component/button_widegt.dart';
 import 'package:practice_project/components/widget_component/textField_widget.dart';
 import 'package:practice_project/components/widget_component/text_widget.dart';
+import 'package:practice_project/components/widget_component/utils_widget.dart';
 import 'package:practice_project/screens/favourite_screen.dart';
 import 'package:practice_project/screens/login_screen.dart';
 import 'package:practice_project/screens/shoe_detail_screen.dart';
@@ -163,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             doubleText(text: "Popular Shoes", onTap: () {}),
             SizedBox(
-              height: 180,
+              height: 195,
               width: double.infinity,
               child: ListView.builder(
                 itemCount: shoeDetails.length,
@@ -184,14 +185,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: 150,
                         decoration: BoxDecoration(color: AppColor.whiteColor, borderRadius: BorderRadius.circular(15.0)),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          padding: const EdgeInsets.only(
+                            left: 5.0,
+                          ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Image.asset(
                                 shoeDetails[index]["shoeImg"],
                               ),
-                              const SizedBox(height: 8.0),
+                              // const SizedBox(height: 8.0),
                               Text(
                                 "BEST SELLER",
                                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.mainColor),
@@ -207,9 +210,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                     shoeDetails[index]["shoePrice"],
                                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.blackColor),
                                   ),
-                                  Icon(
-                                    Icons.add,
-                                    color: AppColor.mainColor,
+                                  InkWell(
+                                    onTap: () {
+                                      // Create a map containing the shoe details
+                                      Map<String, String> shoeData = {
+                                        'shoeImage': shoeDetails[index]['shoeImg'],
+                                        'shoeName': shoeDetails[index]["shoeName"],
+                                        'shoePrice': shoeDetails[index]["shoePrice"],
+                                      };
+                                      FavouriteScreen(shoeData: shoeData);
+                                      Utils.appSnackBar(context, "Data has been sent! ${shoeDetails[index]["shoeName"]}");
+                                      // Pass the shoe data to the FavouriteScreen widget
+                                      // Navigator.of(context).push(MaterialPageRoute(
+                                      //   builder: (context) => FavouriteScreen(shoeData: shoeData),
+                                      // ));
+                                    },
+                                    child: Container(
+                                      height: 40,
+                                      width: 40,
+                                      decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(15.0)),
+                                      child: Icon(Icons.add, color: AppColor.whiteColor),
+                                    ),
                                   )
                                 ],
                               ),
@@ -221,7 +242,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   );
                 },
               ),
-            )
+            ),
+            TextButton(
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => FavouriteScreen(),
+                  ));
+                },
+                child: Text("Favourite Screen"))
           ],
         ),
       ),
