@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:practice_project/components/constant_component/color_constant.dart';
+import 'package:practice_project/components/widget_component/bottom_navigation_bar.dart';
 import 'package:practice_project/components/widget_component/button_widegt.dart';
 import 'package:practice_project/components/widget_component/textField_widget.dart';
 import 'package:practice_project/components/widget_component/text_widget.dart';

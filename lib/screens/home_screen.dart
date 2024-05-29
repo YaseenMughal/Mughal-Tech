@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:practice_project/components/constant_component/color_constant.dart';
 import 'package:practice_project/components/constant_component/image_constant.dart';
+import 'package:practice_project/components/widget_component/bottom_navigation_bar.dart';
 import 'package:practice_project/components/widget_component/button_widegt.dart';
 import 'package:practice_project/components/widget_component/textField_widget.dart';
 import 'package:practice_project/components/widget_component/text_widget.dart';
@@ -68,15 +69,36 @@ class _HomeScreenState extends State<HomeScreen> {
     AppImage.underArmourLogo,
   ];
 
+  List<Map<String, String>> favoriteShoes = [];
+
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
+  late List<Widget> _pages;
+
+  @override
+  void initState() {
+    super.initState();
+    _pages = <Widget>[
+      const HomeScreen(),
+      FavouriteScreen(shoeDataList: favoriteShoes),
+      // FavouriteScreen(shoeDataList: favoriteShoes),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
         title: Text(
           "Home Screen",
-          style: TextStyle(color: AppColor.whiteColor),
+          style: TextStyle(fontSize: 16.0, fontFamily: "Poppin", fontWeight: FontWeight.w600, color: AppColor.blackColor),
         ),
         leading: Builder(
           builder: (context) => IconButton(
@@ -185,16 +207,18 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: 150,
                         decoration: BoxDecoration(color: AppColor.whiteColor, borderRadius: BorderRadius.circular(15.0)),
                         child: Padding(
-                          padding: const EdgeInsets.only(
-                            left: 5.0,
-                          ),
+                          padding: const EdgeInsets.only(left: 5.0),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Image.asset(
-                                shoeDetails[index]["shoeImg"],
+                              Align(
+                                alignment: Alignment.center,
+                                child: Image.asset(
+                                  shoeDetails[index]["shoeImg"],
+                                  cacheHeight: 100,
+                                ),
                               ),
-                              // const SizedBox(height: 8.0),
+                              const Spacer(),
                               Text(
                                 "BEST SELLER",
                                 style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.mainColor),
@@ -203,32 +227,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                 shoeDetails[index]["shoeName"],
                                 style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, fontFamily: "Poppin", color: AppColor.blackColor),
                               ),
+                              const Spacer(),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    shoeDetails[index]["shoePrice"],
+                                    "\$${shoeDetails[index]["shoePrice"] ?? ''}",
                                     style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.blackColor),
                                   ),
                                   InkWell(
                                     onTap: () {
-                                      // Create a map containing the shoe details
-                                      Map<String, String> shoeData = {
-                                        'shoeImage': shoeDetails[index]['shoeImg'],
-                                        'shoeName': shoeDetails[index]["shoeName"],
-                                        'shoePrice': shoeDetails[index]["shoePrice"],
-                                      };
-                                      FavouriteScreen(shoeData: shoeData);
+                                      setState(() {
+                                        favoriteShoes.add({
+                                          'shoeImage': shoeDetails[index]['shoeImg'],
+                                          'shoeName': shoeDetails[index]["shoeName"],
+                                          'shoePrice': shoeDetails[index]["shoePrice"],
+                                        });
+                                      });
                                       Utils.appSnackBar(context, "Data has been sent! ${shoeDetails[index]["shoeName"]}");
-                                      // Pass the shoe data to the FavouriteScreen widget
-                                      // Navigator.of(context).push(MaterialPageRoute(
-                                      //   builder: (context) => FavouriteScreen(shoeData: shoeData),
-                                      // ));
                                     },
                                     child: Container(
                                       height: 40,
-                                      width: 40,
-                                      decoration: BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.circular(15.0)),
+                                      width: 42,
+                                      decoration: const BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0))),
                                       child: Icon(Icons.add, color: AppColor.whiteColor),
                                     ),
                                   )
@@ -243,15 +264,30 @@ class _HomeScreenState extends State<HomeScreen> {
                 },
               ),
             ),
-            TextButton(
-                onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => FavouriteScreen(),
-                  ));
-                },
-                child: Text("Favourite Screen"))
+            // TextButton(
+            //     onPressed: () {
+            //       Navigator.of(context).push(MaterialPageRoute(
+            //         builder: (context) => FavouriteScreen(
+            //           shoeDataList: favoriteShoes,
+            //         ),
+            //       ));
+            //     },
+            //     child: const Text("Favourite Screen"))
           ],
         ),
+      ),
+      bottomNavigationBar: CustomBottomNavigationBar(
+        selectedIndex: _selectedIndex,
+        onItemSelected: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+          if (index == 1) {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => FavouriteScreen(shoeDataList: favoriteShoes),
+            ));
+          }
+        },
       ),
     );
   }

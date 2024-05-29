@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:practice_project/components/constant_component/color_constant.dart';
 import 'package:practice_project/components/constant_component/image_constant.dart';
 import 'package:practice_project/components/widget_component/button_widegt.dart';
-import 'package:practice_project/screens/favourite_screen.dart';
+import 'package:practice_project/screens/add_to_cart.dart';
+import 'package:practice_project/screens/cartItem.dart';
 
 class ShoeDetail extends StatefulWidget {
   final String image;
@@ -27,10 +27,9 @@ class _ShoeDetailState extends State<ShoeDetail> {
         ),
         title: Text(
           "Men's Shoe",
-          style: TextStyle(fontSize: 16, color: AppColor.blackColor),
+          style: TextStyle(fontSize: 16.0, fontFamily: "Poppin", fontWeight: FontWeight.w600, color: AppColor.blackColor),
         ),
         actions: <Widget>[
-          const SizedBox(width: 20),
           Container(
             height: 40,
             width: 40,
@@ -41,7 +40,8 @@ class _ShoeDetailState extends State<ShoeDetail> {
             child: const Icon(
               Icons.shopping_bag_outlined,
             ),
-          )
+          ),
+          const SizedBox(width: 10),
         ],
       ),
       body: Padding(
@@ -52,13 +52,11 @@ class _ShoeDetailState extends State<ShoeDetail> {
             SizedBox(
               height: 250,
               width: double.infinity,
-              // color: Colors.blue,
               child: Image.asset(
                 widget.image,
-                fit: BoxFit.cover,
+                fit: BoxFit.contain,
               ),
             ),
-            // const SizedBox(height: 8.0),
             Expanded(
               child: Container(
                 width: double.infinity,
@@ -107,19 +105,31 @@ class _ShoeDetailState extends State<ShoeDetail> {
                           Container(
                             height: 55,
                             width: 55,
-                            decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(13.0)),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(13.0),
+                              image: const DecorationImage(image: AssetImage(AppImage.shoe05Img)),
+                            ),
                           ),
                           const SizedBox(width: 15.0),
                           Container(
                             height: 55,
                             width: 55,
-                            decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(13.0)),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(13.0),
+                              image: const DecorationImage(image: AssetImage(AppImage.shoe01Img)),
+                            ),
                           ),
                           const SizedBox(width: 15.0),
                           Container(
                             height: 55,
                             width: 55,
-                            decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(13.0)),
+                            decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              borderRadius: BorderRadius.circular(13.0),
+                              image: const DecorationImage(image: AssetImage(AppImage.shoe02Img)),
+                            ),
                           )
                         ],
                       ),
@@ -166,7 +176,15 @@ class _ShoeDetailState extends State<ShoeDetail> {
                         ),
                       ),
                       const SizedBox(height: 10.0),
-                      AppButton.mainButton(text: "Add to Cart", btnTextColor: Colors.blue, onTap: () {})
+                      AppButton.mainButton(
+                          text: "Add to Cart",
+                          btnTextColor: AppColor.whiteColor,
+                          onTap: () {
+                            CartManager().addItem(CartItem(image: widget.image, name: widget.name, price: widget.price));
+                            // CartManager().addItem(CartItem(image: widget.image, name: widget.name, price: widget.price));
+
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddToCartScreen()));
+                          })
                     ],
                   ),
                 ),

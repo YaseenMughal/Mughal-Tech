@@ -3,19 +3,22 @@ import 'package:practice_project/components/constant_component/color_constant.da
 
 class AppButton {
   static Widget arrowButtom({required BuildContext context}) {
-    return Container(
-      height: 35,
-      width: 35,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.circle,
-      ),
-      child: Center(
-        child: IconButton(
-            onPressed: () {
-              Navigator.of(context).pop();
-            },
-            icon: const Icon(Icons.arrow_back_ios_new_outlined)),
+    return Padding(
+      padding: const EdgeInsets.only(left: 10.0),
+      child: Container(
+        height: 25,
+        width: 25,
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          shape: BoxShape.circle,
+        ),
+        child: Center(
+          child: IconButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.arrow_back_ios_new_outlined)),
+        ),
       ),
     );
   }
