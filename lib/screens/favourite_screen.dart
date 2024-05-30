@@ -1,14 +1,17 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:practice_project/components/constant_component/color_constant.dart';
 import 'package:practice_project/components/widget_component/button_widegt.dart';
-import 'package:practice_project/screens/shoe_detail_screen.dart';
+import 'package:practice_project/provider/favorite_provider.dart';
+import 'package:practice_project/screens/add_to_cart.dart';
+import 'package:provider/provider.dart';
 
 class FavouriteScreen extends StatefulWidget {
-  final List<Map<String, String>> shoeDataList;
+  const FavouriteScreen({super.key});
 
-  const FavouriteScreen({required this.shoeDataList});
+  // final List<Map<String, String>> shoeDataList;
+
+  // const FavouriteScreen({required this.shoeDataList});
 
   @override
   State<FavouriteScreen> createState() => _FavouriteScreenState();
@@ -17,17 +20,18 @@ class FavouriteScreen extends StatefulWidget {
 class _FavouriteScreenState extends State<FavouriteScreen> {
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<FavoriteProvider>(context);
+    final finalList = provider.favourite;
     return Scaffold(
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
-        leading: AppButton.arrowButtom(
-          context: context,
-        ),
+        backgroundColor: AppColor.blackColor,
+        automaticallyImplyLeading: false,
         title: Text(
           "Favourite Shoe's",
-          style: TextStyle(fontSize: 16.0, fontFamily: "Poppin", fontWeight: FontWeight.w600, color: AppColor.blackColor),
+          style: TextStyle(fontSize: 16.0, fontFamily: "Poppin", fontWeight: FontWeight.w600, color: AppColor.whiteColor),
         ),
         actions: <Widget>[
-          // const SizedBox(width: 20),
           Container(
             height: 40,
             width: 40,
@@ -35,83 +39,88 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
               color: AppColor.whiteColor,
               shape: BoxShape.circle,
             ),
-            child: const Icon(
-              Icons.favorite_outline,
-            ),
-          ),
-          const SizedBox(width: 10),
-        ],
-      ),
-      body: SafeArea(
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
-                child: GridView.builder(
-                  itemCount: widget.shoeDataList.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10.0,
-                    childAspectRatio: 0.8,
-                  ),
-                  itemBuilder: (context, index) {
-                    final shoeData = widget.shoeDataList[index];
-                    return Padding(
-                      padding: const EdgeInsets.only(right: 5, left: 5),
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => ShoeDetail(image: shoeData['shoeImage'] ?? '', name: shoeData['shoeName'] ?? '', price: shoeData['shoePrice'] ?? ''),
-                            ),
-                          );
-                        },
-                        child: Card(
-                          elevation: 2.0,
-                          child: Padding(
-                            padding: const EdgeInsets.all(2.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Icon(Icons.favorite_border_outlined, color: AppColor.blackColor),
-                                Align(
-                                  alignment: Alignment.topCenter,
-                                  child: SizedBox(
-                                    height: 70,
-                                    width: double.infinity,
-                                    child: Image.asset(
-                                      shoeData['shoeImage'] ?? '',
-                                      fit: BoxFit.contain,
-                                    ),
-                                  ),
-                                ),
-                                Text(
-                                  "BEST SELLER",
-                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.mainColor),
-                                ),
-                                Text(
-                                  shoeData['shoeName'] ?? '',
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500, fontFamily: "Poppin", color: AppColor.blackColor),
-                                ),
-                                Text(
-                                  "\$${shoeData['shoePrice'] ?? ''}",
-                                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.blackColor),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                ),
+            child: InkWell(
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AddToCartScreen()));
+              },
+              child: const Icon(
+                Icons.shopping_cart_outlined,
               ),
             ),
-          ],
-        ),
+          ),
+          const SizedBox(width: 20),
+        ],
       ),
+      body: finalList.isEmpty
+          ? Center(
+              child: Text(
+                "Empty Favourite Shoes",
+                style: TextStyle(fontSize: 22.0, fontWeight: FontWeight.w600, color: AppColor.blackColor, fontFamily: "Poppin"),
+              ),
+            )
+          : SafeArea(
+              child: ListView.builder(
+                itemCount: finalList.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 0),
+                    child: Slidable(
+                      endActionPane: ActionPane(
+                        motion: const ScrollMotion(),
+                        children: [
+                          SlidableAction(
+                            onPressed: (context) {
+                              setState(() {
+                                finalList.removeAt(index);
+                              });
+                            },
+                            backgroundColor: Colors.red,
+                            foregroundColor: AppColor.whiteColor,
+                            label: "Delete",
+                            icon: Icons.delete,
+                          ),
+                        ],
+                      ),
+                      child: ListTile(
+                        tileColor: AppColor.whiteColor,
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              finalList[index].brand,
+                              style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w400, color: AppColor.mainColor, fontFamily: "Poppin"),
+                            ),
+                            Text(
+                              finalList[index].name,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w700, color: AppColor.blackColor, fontFamily: "Poppin"),
+                            ),
+                          ],
+                        ),
+                        subtitle: Text(
+                          finalList[index].description,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(fontSize: 12.0, fontWeight: FontWeight.w400, color: AppColor.subtitleColor, fontFamily: "Poppin"),
+                        ),
+                        leading: CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Colors.grey[200],
+                          child: Padding(
+                            padding: const EdgeInsets.all(5.0),
+                            child: Image.asset(finalList[index].image),
+                          ),
+                        ),
+                        trailing: Text(
+                          "\$${finalList[index].price}",
+                          style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.w600, color: AppColor.subtitleColor, fontFamily: "Poppin"),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
     );
   }
 }

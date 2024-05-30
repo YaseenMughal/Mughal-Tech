@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:practice_project/components/constant_component/color_constant.dart';
 import 'package:practice_project/components/constant_component/image_constant.dart';
+import 'package:practice_project/components/widget_component/bottom_navigation_bar.dart';
 import 'package:practice_project/components/widget_component/button_widegt.dart';
 import 'package:practice_project/components/widget_component/textField_widget.dart';
 import 'package:practice_project/components/widget_component/text_widget.dart';
@@ -48,10 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: AppButton.arrowButtom(context: context),
-                ),
+                
                 const SizedBox(height: 20.0),
                 authenticationText(title: "Hello Again!", subtitle: "Welcome Back You’ve Been Missed!"),
                 const SizedBox(height: 30.0),
@@ -102,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Utils.appSnackBar(context, "Login SuccessFully!");
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => const HomeScreen(),
+                            builder: (context) => const BottomNavBar(),
                           ),
                         );
                       }

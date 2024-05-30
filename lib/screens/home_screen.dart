@@ -1,19 +1,23 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
+
 import 'package:practice_project/components/constant_component/color_constant.dart';
 import 'package:practice_project/components/constant_component/image_constant.dart';
-import 'package:practice_project/components/widget_component/bottom_navigation_bar.dart';
-import 'package:practice_project/components/widget_component/button_widegt.dart';
+import 'package:practice_project/components/widget_component/product_card.dart';
+
 import 'package:practice_project/components/widget_component/textField_widget.dart';
 import 'package:practice_project/components/widget_component/text_widget.dart';
 import 'package:practice_project/components/widget_component/utils_widget.dart';
-import 'package:practice_project/screens/favourite_screen.dart';
-import 'package:practice_project/screens/login_screen.dart';
-import 'package:practice_project/screens/shoe_detail_screen.dart';
-import 'package:practice_project/screens/splash_screen.dart';
 import 'package:practice_project/drawer_screen/profile_drawer.dart';
+import 'package:practice_project/model/my_product.dart';
+import 'package:practice_project/provider/cart_provider.dart';
+import 'package:practice_project/screens/login_screen.dart';
+import 'package:practice_project/screens/popular_shoes.dart';
+import 'package:practice_project/screens/shoe_detail_screen.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,82 +27,47 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Map<String, dynamic>> shoeDetails = [
+  List<Map<String, dynamic>> productLogo = [
     {
-      "shoeImg": AppImage.shoe01Img,
-      "shoeName": "Nike Club Max",
-      "shoePrice": "478.7",
+      "index": 0,
+      "image": AppImage.nikeLogo,
+      "name": "Nike",
     },
     {
-      "shoeImg": AppImage.shoe02Img,
-      "shoeName": "Nike Air Force",
-      "shoePrice": "367.76",
+      "index": 1,
+      "image": AppImage.pumaLogo,
+      "name": "Puma",
     },
     {
-      "shoeImg": AppImage.shoe03Img,
-      "shoeName": "Nike Jordan",
-      "shoePrice": "367.76",
+      "index": 2,
+      "image": AppImage.converseLogo,
+      "name": "Converse",
     },
     {
-      "shoeImg": AppImage.shoe04Img,
-      "shoeName": "Nike Air Max",
-      "shoePrice": "254.89",
+      "index": 3,
+      "image": AppImage.adidasLogo,
+      "name": "Adidas",
     },
     {
-      "shoeImg": AppImage.shoe05Img,
-      "shoeName": "Nike Air Max",
-      "shoePrice": "571.6",
+      "index": 4,
+      "image": AppImage.underArmourLogo,
+      "name": "UnderArmour",
     },
-    {
-      "shoeImg": AppImage.shoe06Img,
-      "shoeName": "Nike Air Max",
-      "shoePrice": "897.99",
-    },
-    {
-      "shoeImg": AppImage.shoe07Img,
-      "shoeName": "Nike Air Jordan",
-      "shoePrice": "659.45",
-    },
-  ];
-
-  List<String> imagesLogo = [
-    AppImage.nikeLogo,
-    AppImage.pumaLogo,
-    AppImage.converseLogo,
-    AppImage.adidasLogo,
-    AppImage.underArmourLogo,
   ];
 
   List<Map<String, String>> favoriteShoes = [];
 
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  late List<Widget> _pages;
-
-  @override
-  void initState() {
-    super.initState();
-    _pages = <Widget>[
-      const HomeScreen(),
-      FavouriteScreen(shoeDataList: favoriteShoes),
-      // FavouriteScreen(shoeDataList: favoriteShoes),
-    ];
-  }
-
   @override
   Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context);
+
     return Scaffold(
-      backgroundColor: Colors.grey[200],
+      backgroundColor: Colors.grey[300],
       appBar: AppBar(
+        backgroundColor: AppColor.blackColor,
         title: Text(
           "Home Screen",
-          style: TextStyle(fontSize: 16.0, fontFamily: "Poppin", fontWeight: FontWeight.w600, color: AppColor.blackColor),
+          style: TextStyle(fontSize: 16.0, fontFamily: "Poppin", fontWeight: FontWeight.w600, color: AppColor.whiteColor),
         ),
         leading: Builder(
           builder: (context) => IconButton(
@@ -136,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   title: "Profile",
                   icon: Icons.person_outline,
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const ProfileDrawerScreen()));
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PersonScreen()));
                   }),
               drawerTile(title: "Setting", icon: Icons.settings_outlined, onTap: () {}),
               drawerTile(title: "Privacy & Policy", icon: Icons.privacy_tip_outlined, onTap: () {}),
@@ -152,142 +121,108 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            appTextField(
-              hinttxt: "Looking For Shoes...",
-              prefixIcon: const Icon(Icons.search_outlined),
-            ),
-            Text(
-              "Sports",
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, fontFamily: "Poppin", color: AppColor.blackColor),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              height: 60,
-              width: double.infinity,
-              child: ListView.builder(
-                itemCount: imagesLogo.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 20.0),
-                    child: Container(
-                      height: 55,
-                      width: 55,
-                      decoration: BoxDecoration(shape: BoxShape.circle, color: AppColor.whiteColor),
-                      child: Image.asset(imagesLogo[index]),
-                    ),
-                  );
-                },
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              appTextField(
+                hinttxt: "Looking For Shoes...",
+                prefixIcon: const Icon(Icons.search_outlined),
               ),
-            ),
-            doubleText(text: "Popular Shoes", onTap: () {}),
-            SizedBox(
-              height: 195,
-              width: double.infinity,
-              child: ListView.builder(
-                itemCount: shoeDetails.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 10.0),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ShoeDetail(
-                                  image: shoeDetails[index]["shoeImg"],
-                                  name: shoeDetails[index]["shoeName"],
-                                  price: shoeDetails[index]["shoePrice"],
-                                )));
-                      },
-                      child: Container(
-                        width: 150,
-                        decoration: BoxDecoration(color: AppColor.whiteColor, borderRadius: BorderRadius.circular(15.0)),
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 5.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Align(
-                                alignment: Alignment.center,
-                                child: Image.asset(
-                                  shoeDetails[index]["shoeImg"],
-                                  cacheHeight: 100,
-                                ),
-                              ),
-                              const Spacer(),
-                              Text(
-                                "BEST SELLER",
-                                style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.mainColor),
-                              ),
-                              Text(
-                                shoeDetails[index]["shoeName"],
-                                style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500, fontFamily: "Poppin", color: AppColor.blackColor),
-                              ),
-                              const Spacer(),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Text(
+                "Sports",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, fontFamily: "Poppin", color: AppColor.blackColor),
+              ),
+              const SizedBox(height: 20),
+              doubleText(
+                  text: "Popular Shoes",
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PopularShoes()));
+                  }),
+              SizedBox(
+                height: 225,
+                width: double.infinity,
+                child: ListView.builder(
+                  itemCount: MyProduct.allProduct.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    final brandShoes = MyProduct.allProduct[index];
+
+                    return Padding(
+                      padding: const EdgeInsets.only(right: 10.0),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShoeDetail(product: brandShoes)));
+                        },
+                        child: Card(
+                          elevation: 4.0,
+                          child: Container(
+                            width: 150,
+                            decoration: BoxDecoration(color: AppColor.whiteColor, borderRadius: BorderRadius.circular(15.0)),
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 5.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    "\$${shoeDetails[index]["shoePrice"] ?? ''}",
-                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.blackColor),
-                                  ),
-                                  InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        favoriteShoes.add({
-                                          'shoeImage': shoeDetails[index]['shoeImg'],
-                                          'shoeName': shoeDetails[index]["shoeName"],
-                                          'shoePrice': shoeDetails[index]["shoePrice"],
-                                        });
-                                      });
-                                      Utils.appSnackBar(context, "Data has been sent! ${shoeDetails[index]["shoeName"]}");
-                                    },
-                                    child: Container(
-                                      height: 40,
-                                      width: 42,
-                                      decoration: const BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0))),
-                                      child: Icon(Icons.add, color: AppColor.whiteColor),
+                                  Align(
+                                    alignment: Alignment.center,
+                                    child: SizedBox(
+                                      height: 100,
+                                      width: 100,
+                                      child: Image.asset(
+                                        brandShoes.image,
+                                        cacheHeight: 100,
+                                      ),
                                     ),
-                                  )
+                                  ),
+                                  const Spacer(),
+                                  Text(
+                                    "BEST SELLER",
+                                    style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.mainColor),
+                                  ),
+                                  Text(
+                                    brandShoes.name,
+                                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: "Poppin", color: AppColor.blackColor),
+                                  ),
+                                  const Spacer(),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "\$${brandShoes.price}",
+                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, fontFamily: "Poppin", color: AppColor.subtitleColor),
+                                      ),
+                                      InkWell(
+                                        onTap: () {
+                                          cartProvider.toggleProduct(brandShoes);
+                                          Utils.appSnackBar(context, "Product Added:-\n Name: ${brandShoes.name}, Price: ${brandShoes.price}");
+                                          log("Product Added:-\n Name: ${brandShoes.name}, Price: ${brandShoes.price}");
+                                        },
+                                        child: Container(
+                                          height: 40,
+                                          width: 42,
+                                          decoration: const BoxDecoration(color: Colors.blue, borderRadius: BorderRadius.only(topLeft: Radius.circular(20.0))),
+                                          child: Icon(Icons.add, color: AppColor.whiteColor),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 ],
                               ),
-                            ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
-            // TextButton(
-            //     onPressed: () {
-            //       Navigator.of(context).push(MaterialPageRoute(
-            //         builder: (context) => FavouriteScreen(
-            //           shoeDataList: favoriteShoes,
-            //         ),
-            //       ));
-            //     },
-            //     child: const Text("Favourite Screen"))
-          ],
+              const SizedBox(height: 10.0),
+              doubleText(text: "Selected Brand Shoes", onTap: () {}),
+            ],
+          ),
         ),
-      ),
-      bottomNavigationBar: CustomBottomNavigationBar(
-        selectedIndex: _selectedIndex,
-        onItemSelected: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-          if (index == 1) {
-            Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => FavouriteScreen(shoeDataList: favoriteShoes),
-            ));
-          }
-        },
       ),
     );
   }

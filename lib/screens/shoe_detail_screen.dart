@@ -1,24 +1,46 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:practice_project/components/constant_component/color_constant.dart';
 import 'package:practice_project/components/constant_component/image_constant.dart';
 import 'package:practice_project/components/widget_component/button_widegt.dart';
-import 'package:practice_project/screens/add_to_cart.dart';
-import 'package:practice_project/screens/cartItem.dart';
+import 'package:practice_project/components/widget_component/utils_widget.dart';
+import 'package:practice_project/model/product_model.dart';
+import 'package:practice_project/provider/cart_provider.dart';
+import 'package:practice_project/provider/favorite_provider.dart';
+import 'package:provider/provider.dart';
 
 class ShoeDetail extends StatefulWidget {
-  final String image;
-  final String name;
-  final String price;
-  const ShoeDetail({super.key, required this.image, required this.name, required this.price});
+  final Product product;
+
+  const ShoeDetail({super.key, required this.product});
 
   @override
   State<ShoeDetail> createState() => _ShoeDetailState();
 }
 
 class _ShoeDetailState extends State<ShoeDetail> {
-  final List<String> _shoeSize = ["38", "39", "40", "41", "42", "43", "44", "45"];
+  final List<Map<String, dynamic>> _shoeSize = [
+    {'index': 0, 'size': '38'},
+    {'index': 1, 'size': '39'},
+    {'index': 2, 'size': '40'},
+    {'index': 3, 'size': '41'},
+    {'index': 4, 'size': '42'},
+    {'index': 5, 'size': '43'},
+    {'index': 6, 'size': '44'},
+    {'index': 7, 'size': '45'},
+  ];
+
+  // final List<String> _shoeSize = ["38", "39", "40", "41", "42", "43", "44", "45"];
+
+  int isSelectedSizeInNumber = 0;
+  int isSelectedSizeInWord = 0;
+
   @override
   Widget build(BuildContext context) {
+    final favoriteProvider = Provider.of<FavoriteProvider>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
+
     return Scaffold(
       // backgroundColor: Colors.black,
       appBar: AppBar(
@@ -37,8 +59,12 @@ class _ShoeDetailState extends State<ShoeDetail> {
               color: AppColor.whiteColor,
               shape: BoxShape.circle,
             ),
-            child: const Icon(
-              Icons.shopping_bag_outlined,
+            child: InkWell(
+              onTap: () => favoriteProvider.toggleFavorite(widget.product),
+              child: Icon(
+                favoriteProvider.isExist(widget.product) ? Icons.favorite : Icons.favorite_outline,
+                color: Colors.red,
+              ),
             ),
           ),
           const SizedBox(width: 10),
@@ -53,7 +79,7 @@ class _ShoeDetailState extends State<ShoeDetail> {
               height: 250,
               width: double.infinity,
               child: Image.asset(
-                widget.image,
+                widget.product.image,
                 fit: BoxFit.contain,
               ),
             ),
@@ -79,19 +105,19 @@ class _ShoeDetailState extends State<ShoeDetail> {
                       ),
                       const SizedBox(height: 5.0),
                       Text(
-                        widget.name,
+                        widget.product.name,
                         style: TextStyle(fontSize: 24, fontWeight: FontWeight.w600, fontFamily: "Poppin", color: AppColor.blackColor),
                       ),
                       const SizedBox(height: 5.0),
                       Text(
-                        "\$${widget.price}",
+                        "\$${widget.product.price}",
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, fontFamily: "Poppin", color: AppColor.blackColor),
                       ),
                       const SizedBox(height: 5.0),
                       Text(
                         "Air Jordan is an American brand of basketball shoes athletic, casual, and style clothing produced by Nike....",
                         softWrap: true,
-                        style: TextStyle(fontSize: 15, color: AppColor.subtitleColor, fontWeight: FontWeight.w400, fontFamily: "Poppin"),
+                        style: TextStyle(fontSize: 14, color: AppColor.subtitleColor, fontWeight: FontWeight.w400, fontFamily: "Poppin"),
                       ),
                       const SizedBox(height: 10.0),
                       Text(
@@ -108,7 +134,7 @@ class _ShoeDetailState extends State<ShoeDetail> {
                             decoration: BoxDecoration(
                               color: Colors.grey[300],
                               borderRadius: BorderRadius.circular(13.0),
-                              image: const DecorationImage(image: AssetImage(AppImage.shoe05Img)),
+                              image: const DecorationImage(image: AssetImage(AppImage.nike04Img)),
                             ),
                           ),
                           const SizedBox(width: 15.0),
@@ -118,7 +144,7 @@ class _ShoeDetailState extends State<ShoeDetail> {
                             decoration: BoxDecoration(
                               color: Colors.grey[300],
                               borderRadius: BorderRadius.circular(13.0),
-                              image: const DecorationImage(image: AssetImage(AppImage.shoe01Img)),
+                              image: const DecorationImage(image: AssetImage(AppImage.adidas03Img)),
                             ),
                           ),
                           const SizedBox(width: 15.0),
@@ -128,7 +154,7 @@ class _ShoeDetailState extends State<ShoeDetail> {
                             decoration: BoxDecoration(
                               color: Colors.grey[300],
                               borderRadius: BorderRadius.circular(13.0),
-                              image: const DecorationImage(image: AssetImage(AppImage.shoe02Img)),
+                              image: const DecorationImage(image: AssetImage(AppImage.puma05Img)),
                             ),
                           )
                         ],
@@ -141,13 +167,11 @@ class _ShoeDetailState extends State<ShoeDetail> {
                             "Size",
                             style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500, fontFamily: "Poppin", color: AppColor.blackColor),
                           ),
-                          const Row(
+                          Row(
                             children: [
-                              Text("EU"),
-                              SizedBox(width: 7.0),
-                              Text("US"),
-                              SizedBox(width: 7.0),
-                              Text("UK"),
+                              sizeEnglish(index: 0, text: "EU"),
+                              sizeEnglish(index: 1, text: "US"),
+                              sizeEnglish(index: 2, text: "UK"),
                             ],
                           )
                         ],
@@ -159,17 +183,29 @@ class _ShoeDetailState extends State<ShoeDetail> {
                           scrollDirection: Axis.horizontal,
                           itemCount: _shoeSize.length,
                           itemBuilder: (context, index) {
+                            final indexx = _shoeSize[index]['index'];
                             return Padding(
                               padding: const EdgeInsets.only(right: 15.0),
-                              child: Container(
-                                height: 40,
-                                width: 40,
-                                decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.grey[300]),
-                                child: Center(
-                                    child: Text(
-                                  _shoeSize[index],
-                                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500, fontFamily: "Poppin", color: AppColor.blackColor),
-                                )),
+                              child: InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    isSelectedSizeInNumber = indexx;
+                                  });
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 40,
+                                  decoration: BoxDecoration(shape: BoxShape.circle, color: isSelectedSizeInNumber == indexx ? AppColor.mainColor : Colors.grey[300]),
+                                  child: Center(
+                                      child: Text(
+                                    _shoeSize[indexx]['size'],
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: "Poppin",
+                                        color: isSelectedSizeInNumber == indexx ? AppColor.whiteColor : AppColor.blackColor),
+                                  )),
+                                ),
                               ),
                             );
                           },
@@ -180,10 +216,9 @@ class _ShoeDetailState extends State<ShoeDetail> {
                           text: "Add to Cart",
                           btnTextColor: AppColor.whiteColor,
                           onTap: () {
-                            CartManager().addItem(CartItem(image: widget.image, name: widget.name, price: widget.price));
-                            // CartManager().addItem(CartItem(image: widget.image, name: widget.name, price: widget.price));
-
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AddToCartScreen()));
+                            cartProvider.toggleProduct(widget.product);
+                            Utils.appSnackBar(context, "Product Added:-\n Name: ${widget.product.name}, Price: ${widget.product.price}");
+                            log("Product Added:-\n Name: ${widget.product.name}, Price: ${widget.product.price}");
                           })
                     ],
                   ),
@@ -191,6 +226,35 @@ class _ShoeDetailState extends State<ShoeDetail> {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget sizeEnglish({required int index, required String text}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5.0),
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            isSelectedSizeInWord = index;
+          });
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.0),
+            color: isSelectedSizeInWord == index ? AppColor.mainColor : Colors.transparent,
+            border: Border.all(color: isSelectedSizeInWord == index ? AppColor.blackColor : AppColor.mainColor, width: 2.0),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
+            child: Text(
+              text,
+              style: TextStyle(
+                color: isSelectedSizeInWord == index ? AppColor.whiteColor : AppColor.blackColor,
+              ),
+            ),
+          ),
         ),
       ),
     );
