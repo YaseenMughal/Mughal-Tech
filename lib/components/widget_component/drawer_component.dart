@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:practice_project/components/constant_component/color_constant.dart';
+import 'package:practice_project/components/widget_component/utils_widget.dart';
 import 'package:practice_project/drawer_screen/profile_drawer.dart';
-import 'package:practice_project/screens/login_screen.dart';
+import 'package:practice_project/screens/auth/login_screen.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -25,10 +26,21 @@ class AppDrawer extends StatelessWidget {
                 title: "Profile",
                 icon: Icons.person_outline,
                 onTap: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PersonScreen()));
+                  Utils.toastMessage(message: "Coming Soon..", bgColor: AppColor.mainColor);
+                  // Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PersonScreen()));
                 }),
-            drawerTile(title: "Setting", icon: Icons.settings_outlined, onTap: () {}),
-            drawerTile(title: "Privacy & Policy", icon: Icons.privacy_tip_outlined, onTap: () {}),
+            drawerTile(
+                title: "Setting",
+                icon: Icons.settings_outlined,
+                onTap: () {
+                  Utils.toastMessage(message: "Coming Soon..", bgColor: AppColor.mainColor);
+                }),
+            drawerTile(
+                title: "Privacy & Policy",
+                icon: Icons.privacy_tip_outlined,
+                onTap: () {
+                  Utils.toastMessage(message: "Coming Soon..", bgColor: AppColor.mainColor);
+                }),
             drawerTile(
                 title: "LogOut",
                 icon: Icons.logout_outlined,

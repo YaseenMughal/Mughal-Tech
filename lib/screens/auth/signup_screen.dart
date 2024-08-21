@@ -6,9 +6,9 @@ import 'package:practice_project/components/widget_component/button_widegt.dart'
 import 'package:practice_project/components/widget_component/textField_widget.dart';
 import 'package:practice_project/components/widget_component/text_widget.dart';
 import 'package:practice_project/components/widget_component/utils_widget.dart';
-import 'package:practice_project/screens/forget_screen.dart';
+import 'package:practice_project/screens/auth/forget_screen.dart';
 import 'package:practice_project/screens/home_screen.dart';
-import 'package:practice_project/screens/login_screen.dart';
+import 'package:practice_project/screens/auth/login_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});

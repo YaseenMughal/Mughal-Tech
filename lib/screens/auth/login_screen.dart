@@ -6,8 +6,8 @@ import 'package:practice_project/components/widget_component/button_widegt.dart'
 import 'package:practice_project/components/widget_component/textField_widget.dart';
 import 'package:practice_project/components/widget_component/text_widget.dart';
 import 'package:practice_project/components/widget_component/utils_widget.dart';
-import 'package:practice_project/screens/forget_screen.dart';
-import 'package:practice_project/screens/signup_screen.dart';
+import 'package:practice_project/screens/auth/forget_screen.dart';
+import 'package:practice_project/screens/auth/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Utils.appSnackBar(context, "Password must be greater than 6 characters!");
                       } else {
                         Utils.appSnackBar(context, "Login SuccessFully!");
-                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const BottomNavBar()), ModalRoute.withName('/'));
+                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const BottomNavBar()), (route) => false);
                       }
                     }),
                 const SizedBox(height: 10.0),

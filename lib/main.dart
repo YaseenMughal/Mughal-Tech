@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:practice_project/provider/cart_provider.dart';
 import 'package:practice_project/provider/favorite_provider.dart';
-import 'package:practice_project/screens/login_screen.dart';
+import 'package:practice_project/screens/auth/login_screen.dart';
 import 'package:practice_project/screens/splash_screen.dart';
 import 'package:provider/provider.dart';
 
