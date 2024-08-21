@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:practice_project/components/constant_component/color_constant.dart';
 import 'package:practice_project/components/constant_component/image_constant.dart';
 import 'package:practice_project/components/widget_component/bottom_navigation_bar.dart';
@@ -8,7 +7,6 @@ import 'package:practice_project/components/widget_component/textField_widget.da
 import 'package:practice_project/components/widget_component/text_widget.dart';
 import 'package:practice_project/components/widget_component/utils_widget.dart';
 import 'package:practice_project/screens/forget_screen.dart';
-import 'package:practice_project/screens/home_screen.dart';
 import 'package:practice_project/screens/signup_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -40,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
@@ -49,7 +47,6 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                
                 const SizedBox(height: 20.0),
                 authenticationText(title: "Hello Again!", subtitle: "Welcome Back You’ve Been Missed!"),
                 const SizedBox(height: 30.0),
@@ -98,11 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Utils.appSnackBar(context, "Password must be greater than 6 characters!");
                       } else {
                         Utils.appSnackBar(context, "Login SuccessFully!");
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const BottomNavBar(),
-                          ),
-                        );
+                        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const BottomNavBar()), ModalRoute.withName('/'));
                       }
                     }),
                 const SizedBox(height: 10.0),

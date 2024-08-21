@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:practice_project/components/constant_component/color_constant.dart';
-import 'package:practice_project/components/widget_component/button_widegt.dart';
 import 'package:practice_project/provider/favorite_provider.dart';
 import 'package:practice_project/screens/add_to_cart.dart';
 import 'package:provider/provider.dart';
@@ -48,7 +47,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
               ),
             ),
           ),
-          const SizedBox(width: 20),
+          const SizedBox(width: 10),
         ],
       ),
       body: finalList.isEmpty

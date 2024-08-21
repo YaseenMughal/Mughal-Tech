@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:practice_project/components/constant_component/color_constant.dart';
 import 'package:practice_project/components/widget_component/button_widegt.dart';
+import 'package:practice_project/components/widget_component/utils_widget.dart';
 import 'package:practice_project/provider/cart_provider.dart';
 import 'package:practice_project/screens/cartItem.dart';
 import 'package:provider/provider.dart';
@@ -192,8 +193,10 @@ class _AddToCartScreenState extends State<AddToCartScreen> {
                   ),
                 ),
                 AppButton.mainButton(
-                  text: "CheckOut",
-                )
+                    text: "CheckOut",
+                    onTap: () {
+                      Utils.toastMessage(message: "Coming Soon..", bgColor: AppColor.mainColor);
+                    })
               ],
             ),
           )),

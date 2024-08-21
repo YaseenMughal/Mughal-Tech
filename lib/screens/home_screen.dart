@@ -1,20 +1,14 @@
 import 'dart:developer';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-
 import 'package:practice_project/components/constant_component/color_constant.dart';
 import 'package:practice_project/components/constant_component/image_constant.dart';
-import 'package:practice_project/components/widget_component/product_card.dart';
-
+import 'package:practice_project/components/widget_component/drawer_component.dart';
 import 'package:practice_project/components/widget_component/textField_widget.dart';
 import 'package:practice_project/components/widget_component/text_widget.dart';
 import 'package:practice_project/components/widget_component/utils_widget.dart';
-import 'package:practice_project/drawer_screen/profile_drawer.dart';
 import 'package:practice_project/model/my_product.dart';
 import 'package:practice_project/provider/cart_provider.dart';
-import 'package:practice_project/screens/login_screen.dart';
+import 'package:practice_project/screens/add_to_cart.dart';
 import 'package:practice_project/screens/popular_shoes.dart';
 import 'package:practice_project/screens/shoe_detail_screen.dart';
 import 'package:provider/provider.dart';
@@ -62,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final cartProvider = Provider.of<CartProvider>(context);
 
     return Scaffold(
-      backgroundColor: Colors.grey[300],
+      backgroundColor: Colors.grey[100],
       appBar: AppBar(
         backgroundColor: AppColor.blackColor,
         title: Text(
@@ -77,48 +71,26 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         centerTitle: true,
         actions: <Widget>[
-          const SizedBox(width: 20),
-          Container(
-            height: 40,
-            width: 40,
-            decoration: BoxDecoration(
-              color: AppColor.whiteColor,
-              shape: BoxShape.circle,
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => const AddToCartScreen()));
+            },
+            child: Container(
+              height: 40,
+              width: 40,
+              decoration: BoxDecoration(
+                color: AppColor.whiteColor,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.shopping_bag_outlined,
+              ),
             ),
-            child: const Icon(
-              Icons.shopping_bag_outlined,
-            ),
-          )
+          ),
+          const SizedBox(width: 10),
         ],
       ),
-      drawer: Drawer(
-        backgroundColor: AppColor.whiteColor,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 30.0),
-          child: Column(
-            children: [
-              CircleAvatar(radius: 55, child: Image.asset("assets/images/PngItem_526033.png")),
-              const SizedBox(
-                height: 40,
-              ),
-              drawerTile(
-                  title: "Profile",
-                  icon: Icons.person_outline,
-                  onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PersonScreen()));
-                  }),
-              drawerTile(title: "Setting", icon: Icons.settings_outlined, onTap: () {}),
-              drawerTile(title: "Privacy & Policy", icon: Icons.privacy_tip_outlined, onTap: () {}),
-              drawerTile(
-                  title: "LogOut",
-                  icon: Icons.logout_outlined,
-                  onTap: () {
-                    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (route) => false);
-                  }),
-            ],
-          ),
-        ),
-      ),
+      drawer: const AppDrawer(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
         child: SingleChildScrollView(
@@ -126,15 +98,32 @@ class _HomeScreenState extends State<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              appTextField(
-                hinttxt: "Looking For Shoes...",
-                prefixIcon: const Icon(Icons.search_outlined),
-              ),
               Text(
                 "Sports",
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, fontFamily: "Poppin", color: AppColor.blackColor),
               ),
-              const SizedBox(height: 20),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 180),
+                child: CarouselView(
+                  backgroundColor: AppColor.blackColor.withOpacity(0.7),
+                  itemExtent: 320,
+                  shrinkExtent: 200,
+                  children: List<Widget>.generate(
+                    3,
+                    (int index) {
+                      return Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Image.asset(MyProduct.underArmourProduct[index % 3].image),
+                      );
+                    },
+                  ),
+                ),
+              ),
+              appTextField(
+                hinttxt: "Looking For Shoes...",
+                prefixIcon: const Icon(Icons.search_outlined),
+              ),
+              const SizedBox(height: 10),
               doubleText(
                   text: "Popular Shoes",
                   onTap: () {
@@ -220,37 +209,67 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               const SizedBox(height: 10.0),
               doubleText(text: "Selected Brand Shoes", onTap: () {}),
+              SizedBox(
+                height: 500,
+                width: double.infinity,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5.0),
+                  child: ListView.builder(
+                    itemCount: MyProduct.allProduct.length,
+                    reverse: true,
+                    itemBuilder: (context, index) {
+                      final brandShoes = MyProduct.allProduct[index];
+
+                      return InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShoeDetail(product: brandShoes)));
+                        },
+                        child: Card(
+                          color: AppColor.whiteColor,
+                          elevation: 3.0,
+                          child: SizedBox(
+                            height: 100,
+                            width: double.infinity,
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Text(
+                                        "BEST CHOICE",
+                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, fontFamily: "Poppin", color: AppColor.mainColor),
+                                      ),
+                                      Text(
+                                        brandShoes.name.toString(),
+                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w700, fontFamily: "Poppin", color: AppColor.blackColor),
+                                      ),
+                                      Text(
+                                        '\$${brandShoes.price.toString()}',
+                                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, fontFamily: "Poppin", color: AppColor.subtitleColor),
+                                      )
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: double.infinity,
+                                    width: 130,
+                                    child: Image.asset(brandShoes.image.toString()),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              )
             ],
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget drawerTile({required String title, required IconData icon, void Function()? onTap}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.0),
-          color: AppColor.whiteColor,
-          boxShadow: const [
-            BoxShadow(
-              blurRadius: 6,
-              spreadRadius: 1,
-              offset: Offset(0, 5),
-              color: Color.fromRGBO(223, 222, 222, 1),
-            ),
-          ],
-        ),
-        child: ListTile(
-          onTap: onTap,
-          title: Text(
-            title,
-            style: const TextStyle(color: Colors.black),
-          ),
-          trailing: Icon(icon, color: Colors.black),
         ),
       ),
     );

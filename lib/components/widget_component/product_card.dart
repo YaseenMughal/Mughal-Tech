@@ -8,13 +8,10 @@ import 'package:provider/provider.dart';
 
 class ProductCard extends StatefulWidget {
   final Product product;
-  // final String image;
-  // final String name;
-  // final String price;
+  
   const ProductCard({
     super.key,
     required this.product,
-    // required this.image, required this.name, required this.price
   });
 
   @override
@@ -27,7 +24,6 @@ class _ProductCardState extends State<ProductCard> {
     final provider = Provider.of<FavoriteProvider>(context);
     return Card(
       elevation: 4.0,
-      // color: Colors.green,
       child: Container(
         width: MediaQuery.of(context).size.width / 2,
         decoration: BoxDecoration(

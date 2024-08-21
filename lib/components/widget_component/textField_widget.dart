@@ -20,7 +20,7 @@ Widget appTextField(
       obscuringCharacter: '*',
       focusNode: focusNode,
       onSubmitted: onSubmitted,
-      style: TextStyle(color: AppColor.blackColor, fontSize: 14.0),
+      style: TextStyle(color: AppColor.subtitleColor, fontSize: 14.0, fontFamily: "Poppin", fontWeight: FontWeight.w500),
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(12.0),
         isDense: true,
@@ -29,9 +29,12 @@ Widget appTextField(
         filled: true,
         fillColor: AppColor.whiteColor,
         labelText: labeltxt,
-        labelStyle: TextStyle(color: AppColor.blackColor),
+        labelStyle: TextStyle(color: AppColor.blackColor, fontSize: 14.0, fontFamily: "Poppin", fontWeight: FontWeight.w500),
         hintText: hinttxt,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0)),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0), borderSide: BorderSide(color: AppColor.mainColor, width: 2.0)),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0), borderSide: BorderSide(color: AppColor.mainColor, width: 1.0)),
+        errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(20.0), borderSide: const BorderSide(color: Colors.red, width: 2.0)),
       ),
     ),
   );

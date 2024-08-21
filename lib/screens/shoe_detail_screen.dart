@@ -75,12 +75,16 @@ class _ShoeDetailState extends State<ShoeDetail> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            Container(
               height: 250,
               width: double.infinity,
-              child: Image.asset(
-                widget.product.image,
-                fit: BoxFit.contain,
+              color: AppColor.whiteColor,
+              child: Padding(
+                padding: const EdgeInsets.all(35.0),
+                child: Image.asset(
+                  widget.product.image,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
             Expanded(
@@ -90,8 +94,8 @@ class _ShoeDetailState extends State<ShoeDetail> {
                     color: AppColor.whiteColor,
                     boxShadow: const [BoxShadow(blurRadius: 8, spreadRadius: 5, offset: Offset(2, 2), color: Color.fromRGBO(224, 224, 224, 1))],
                     borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(20.0),
-                      topRight: Radius.circular(20.0),
+                      topLeft: Radius.circular(30.0),
+                      topRight: Radius.circular(30.0),
                     )),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15.0),
@@ -131,10 +135,11 @@ class _ShoeDetailState extends State<ShoeDetail> {
                           Container(
                             height: 55,
                             width: 55,
+                            margin: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               color: Colors.grey[300],
                               borderRadius: BorderRadius.circular(13.0),
-                              image: const DecorationImage(image: AssetImage(AppImage.nike04Img)),
+                              image: const DecorationImage(image: AssetImage(AppImage.nike04Img), fit: BoxFit.contain),
                             ),
                           ),
                           const SizedBox(width: 15.0),

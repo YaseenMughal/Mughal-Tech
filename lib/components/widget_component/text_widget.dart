@@ -53,7 +53,7 @@ Widget doubleText({required String text, required void Function()? onTap}) {
     children: [
       Text(
         text,
-        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: AppColor.blackColor, fontFamily: "Poppin"),
+        style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppColor.blackColor, fontFamily: "Poppin"),
       ),
       TextButton(
           onPressed: onTap,
